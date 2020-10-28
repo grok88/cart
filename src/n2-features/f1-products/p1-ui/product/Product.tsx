@@ -5,7 +5,7 @@ type ProductPropsType = {
     product: ProductType
 }
 
-export const Product: React.FC<ProductPropsType> = (props) => {
+export const Product: React.FC<ProductPropsType> = React.memo((props) => {
     const {product:{description,id,imgUrl,price,title}} = props;
     return <div style={{width:'200px', outline:'1px solid red', padding:'10px', margin:'10px', textAlign:'center'}}>
        <div>
@@ -24,4 +24,4 @@ export const Product: React.FC<ProductPropsType> = (props) => {
             <button>Add to Cart</button>
         </div>
     </div>
-}
+})
