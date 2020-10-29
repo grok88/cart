@@ -1,5 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Product} from "./product/Product";
+import {useDispatch, useSelector} from "react-redux";
+import { getProductsTC } from "../p2-bll/products-reducer";
+import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 
 export type ProductType = {
     id: number
@@ -9,36 +12,14 @@ export type ProductType = {
     imgUrl: string
 }
 export const Products = React.memo(() => {
-    const products: Array<ProductType> = [
-        {
-            id: 1,
-            title: 'Milk',
-            description: 'description',
-            price: 20,
-            imgUrl: 'url'
-        },
-        {
-            id: 2,
-            title: 'Beer',
-            description: 'description',
-            price: 30,
-            imgUrl: 'url'
-        },
-        {
-            id: 3,
-            title: 'Bread',
-            description: 'description',
-            price: 10,
-            imgUrl: 'url'
-        },
-        {
-            id: 4,
-            title: 'apple',
-            description: 'description',
-            price: 5,
-            imgUrl: 'url'
-        }
-    ]
+
+    const products = useSelector<AppRootStateType,Array<ProductType>>(state => state.products.products);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(getProductsTC());
+    },[]);
+
     return (<div>
             {
                 products.map(product => {
