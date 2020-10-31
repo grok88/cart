@@ -6,10 +6,14 @@ import {ProductType} from "../p1-ui/Products";
 import {ProductAPI} from "../p3-dal/ProductAPI";
 
 export const GET_PRODUCTS = 'PRODUCTS/GET_PRODUCTS'; // blank
+export const INCREMENT_COUNT = 'PRODUCTS/INCREMENT_COUNT'; // blank
+export const DECREMENT_COUNT = 'PRODUCTS/DECREMENT_COUNT'; // blank
 
 type loginInACType = ReturnType<typeof getProducts>;
+type incrementCountACType = ReturnType<typeof incrementCount>;
+type decrementCountACType = ReturnType<typeof decrementCount>;
 
-export type ProductsReducerActions = loginInACType | { type: '+', id:number } ;
+export type ProductsReducerActions = loginInACType | incrementCountACType | decrementCountACType ;
 
 export type ProductsInitialStateType = {
     products: Array<ProductType>
@@ -22,7 +26,6 @@ export const productsInitialState: ProductsInitialStateType = {
 export const productsReducer = (state: ProductsInitialStateType = productsInitialState, action: ProductsReducerActions) => {
         switch (action.type) {
             case "PRODUCTS/GET_PRODUCTS":
-
                 return {
                     ...state,
                     // products: [ ...action.products]
@@ -34,11 +37,19 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                         ...action.products.filter(p => !state.products.find(s => s.id === p.id))
                     ]
                 }
-                // for cart
-            case '+': {
+
+            case 'PRODUCTS/INCREMENT_COUNT': {
                 const newState = {
                     ...state,
-                    product: state.products.map(p => p.id === action.id ? {...p, count: p.count + 1} : p)
+                    products: state.products.map(p => p.id === action.id ? {...p, count: p.count + 1} : p)
+                }
+                //save to local
+                return newState;
+            }
+            case 'PRODUCTS/DECREMENT_COUNT': {
+                const newState = {
+                    ...state,
+                    products: state.products.map(p => p.id === action.id ? {...p, count: p.count - 1} : p)
                 }
                 //save to local
                 return newState;
@@ -57,12 +68,24 @@ export const getProducts = (products: Array<ProductType>) => {
         products
     } as const
 }
+export const incrementCount = (id: number) => {
+    return {
+        type: INCREMENT_COUNT,
+        id
+    } as const
+}
+export const decrementCount = (id: number) => {
+    return {
+        type: DECREMENT_COUNT,
+        id
+    } as const
+}
 
 export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
             const res = await ProductAPI.getProducts();
-            console.log(res);
+            // console.log(res);
             dispatch(getProducts(res));
         } catch (e) {
 
