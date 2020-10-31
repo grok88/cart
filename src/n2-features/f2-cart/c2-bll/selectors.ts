@@ -1,3 +1,3 @@
 import { AppRootStateType } from "../../../n1-main/m2-bll/store";
 
-// export const filterCarts = (state: AppRootStateType) => state.products.products.filter(product => product.);
+export const cartsSelector = (state: AppRootStateType) => state.products.products.filter(product => product.count > 0);
