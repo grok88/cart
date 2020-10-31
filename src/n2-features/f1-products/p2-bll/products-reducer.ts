@@ -10,19 +10,22 @@ export const GET_PRODUCTS = 'PRODUCTS/GET_PRODUCTS'; // blank
 type loginInACType = ReturnType<typeof getProducts>;
 
 export type ProductsReducerActions = loginInACType ;
-export type ProductsInitialStateType = typeof productsInitialState;
 
+export type ProductsInitialStateType = {
+    products:Array<ProductType>
+};
 
-export const productsInitialState = {
-    products: [] as Array<ProductType>
+export const productsInitialState:ProductsInitialStateType = {
+    products: []
 };
 
 export const productsReducer = (state: ProductsInitialStateType = productsInitialState, action: ProductsReducerActions) => {
     switch (action.type) {
         case "PRODUCTS/GET_PRODUCTS":
+            debugger
             return {
                 ...state,
-                products: action.products
+                products: [ ...action.products]
             }
 
         default: {
@@ -31,8 +34,7 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
     }
 };
 
-
-export const getProducts = (products: any) => {
+export const getProducts = (products:any) => {
     return {
         type: GET_PRODUCTS,
         products
@@ -41,8 +43,10 @@ export const getProducts = (products: any) => {
 
 export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+        debugger
         try {
             const res = await ProductAPI.getProducts();
+            console.log(res);
             dispatch(getProducts(res));
         } catch (e) {
 
