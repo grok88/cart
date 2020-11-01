@@ -23,7 +23,7 @@ const products: Array<ProductType> = [
         description: 'description',
         price: 10,
         imgUrl: 'url',
-        count:1
+        count:0
     },
     {
         id: 4,
@@ -31,7 +31,7 @@ const products: Array<ProductType> = [
         description: 'description',
         price: 5,
         imgUrl: 'url',
-        count:2
+        count:0
     }
 ]
 
