@@ -4,33 +4,33 @@ const products: Array<ProductType> = [
     {
         id: 1,
         title: 'Milk',
-        description: 'description',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 20,
-        imgUrl: 'url',
+        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
         count:0
     },
     {
         id: 2,
         title: 'Beer',
-        description: 'description',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 30,
-        imgUrl: 'url',
+        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
         count:0
     },
     {
         id: 3,
         title: 'Bread',
-        description: 'description',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 10,
-        imgUrl: 'url',
+        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
         count:0
     },
     {
         id: 4,
         title: 'apple',
-        description: 'description',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 5,
-        imgUrl: 'url',
+        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
         count:0
     }
 ]

@@ -1,8 +1,9 @@
+import { Paper } from '@material-ui/core';
 import React from 'react'
 import styles from './UserInfo.module.css'
 
 export const UserInfo = React.memo(() => {
-    return (<div className={styles.userContactBlock}>
+    return (<Paper elevation={3} style={{padding:'10px'}}>
         <div>
             <input type="text" placeholder={'NAME'}/>
         </div>
@@ -18,5 +19,5 @@ export const UserInfo = React.memo(() => {
         <div>
             <button type={'submit'}>ORDER</button>
         </div>
-    </div>);
+    </Paper>);
 })

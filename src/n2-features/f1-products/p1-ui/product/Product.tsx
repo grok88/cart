@@ -30,8 +30,10 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
         console.log(id)
     }
     return <Paper elevation={3}>
-        <div>
-            <img src={imgUrl} alt="Product Image"/>
+        <div style={{ width: '128px',
+            height: '128px'}}>
+            <img src={imgUrl} alt="Product Image" style={{ maxWidth: '100%',
+                maxHeight: '100%'}}/>
         </div>
         <div>
             {title}
