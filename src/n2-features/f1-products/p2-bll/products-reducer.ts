@@ -10,26 +10,22 @@ export const GET_CARTS_PRODUCTS = 'PRODUCTS/GET_CARTS_PRODUCTS'; // blank
 export const INCREMENT_COUNT = 'PRODUCTS/INCREMENT_COUNT'; // blank
 export const DECREMENT_COUNT = 'PRODUCTS/DECREMENT_COUNT'; // blank
 export const TOTAL_PRICE = 'PRODUCTS/TOTAL_PRICE'; // blank
+export const SET_PRODUCT_TO_CART = 'PRODUCTS/SET_PRODUCT_TO_CART'; // blank
 
 type GetProductsACType = ReturnType<typeof getProducts>;
 type GetCartsProductsACType = ReturnType<typeof getCartsProducts>;
 type IncrementCountACType = ReturnType<typeof incrementCount>;
 type DecrementCountACType = ReturnType<typeof decrementCount>;
 type TotalPriceCountACType = ReturnType<typeof totalCartPrice>;
+type SetProductsToCardACType = ReturnType<typeof setProductsToCard>;
 
 export type ProductsReducerActions =
     GetProductsACType
     | GetCartsProductsACType
     | IncrementCountACType
     | DecrementCountACType
-    | TotalPriceCountACType ;
-
-
-// export function restoreState<T>(key: string, defaultState: T) {
-//     const stateAsString = localStorage.getItem(key);
-//     if (stateAsString !== null) defaultState = JSON.parse(stateAsString) as T;
-//     return defaultState;
-// }
+    | TotalPriceCountACType
+    | SetProductsToCardACType;
 
 export type ProductsInitialStateType = {
     products: Array<ProductType>
@@ -38,11 +34,9 @@ export type ProductsInitialStateType = {
 };
 
 export const productsInitialState: ProductsInitialStateType = {
-    // products: JSON.parse(localStorage.getItem('carts') ? localStorage.getItem('carts') : null) // add local
-    // products: restoreState<Array<ProductType>>('carts', [])
-    products: [],
+    products: [], //data in server
     totalCount: 0,
-    productsInCart: []
+    productsInCart: [] // add product to cart
 }
 
 const getTotalPrice = (products: Array<ProductType>) => {
@@ -66,9 +60,23 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                     // ]
                 }
             case "PRODUCTS/GET_CARTS_PRODUCTS": {
+                const products = Object.values(action.products).map(prod => prod);
                 return {
                     ...state,
-                    productsInCart: action.products
+                    productsInCart: products,
+                    totalCount: getTotalPrice(products)
+                }
+            }
+
+            case "PRODUCTS/SET_PRODUCT_TO_CART": {
+                const newState = {
+                    ...state,
+                    productsInCart: [...state.productsInCart, action.product],
+                }
+                localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
+                return {
+                    ...newState,
+                    totalCount: getTotalPrice(newState.productsInCart)
                 }
             }
 
@@ -77,10 +85,7 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                     ...state,
                     productsInCart: state.productsInCart.map(p => p.id === action.id ? {...p, count: p.count + 1} : p)
                 }
-                localStorage.setItem('carts', JSON.stringify({
-                    ...newState,
-                    totalCount: getTotalPrice(newState.productsInCart)
-                }));
+                localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
                 return {
                     ...newState,
                     totalCount: getTotalPrice(newState.productsInCart)
@@ -94,9 +99,10 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                 //save to local
                 let data = {
                     ...newState,
+                    productsInCart: newState.productsInCart.filter(prod => prod.count !== 0),
                     totalCount: getTotalPrice(newState.productsInCart)
                 }
-                localStorage.setItem('carts', JSON.stringify(data));
+                localStorage.setItem('carts', JSON.stringify(data.productsInCart));
                 return data;
             }
             case "PRODUCTS/TOTAL_PRICE":
@@ -115,6 +121,12 @@ export const getProducts = (products: Array<ProductType>) => {
     return {
         type: GET_PRODUCTS,
         products
+    } as const
+}
+export const setProductsToCard = (product: ProductType) => {
+    return {
+        type: SET_PRODUCT_TO_CART,
+        product
     } as const
 }
 export const getCartsProducts = (products: Array<ProductType>) => {
@@ -146,9 +158,7 @@ export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
             const res = await ProductAPI.getProducts();
-            // console.log(res);
             dispatch(getProducts(res));
-            dispatch(getCartsProducts(res));
         } catch (e) {
 
         }

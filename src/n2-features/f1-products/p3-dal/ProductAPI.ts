@@ -41,8 +41,7 @@ export const ProductAPI = {
             setTimeout(() => {
                 // res(products.map(p => ({ ...p, count:0})));
                 res(products);
-            }, 3000);
+            }, 1000);
         })
     }
-
 }

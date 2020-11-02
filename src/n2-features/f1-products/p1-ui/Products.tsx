@@ -9,7 +9,7 @@ export type ProductType = {
     title: string
     description: string
     price: number
-    imgUrl: string,
+    imgUrl: string
     count:number
 }
 export const Products = React.memo(() => {
