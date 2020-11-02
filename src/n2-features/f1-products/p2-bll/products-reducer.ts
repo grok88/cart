@@ -51,13 +51,6 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                 return {
                     ...state,
                     products: action.products
-                    // products: [...state.products.map(p => ({
-                    //     ...p,
-                    //     ...(action.products.find(a => a.id === p.id) || {}),
-                    //     count: p.count
-                    // })),
-                    //     ...action.products.filter(p => !state.products.find(s => s.id === p.id))
-                    // ]
                 }
             case "PRODUCTS/GET_CARTS_PRODUCTS": {
                 const products = Object.values(action.products).map(prod => prod);

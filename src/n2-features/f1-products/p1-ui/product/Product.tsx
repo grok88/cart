@@ -3,6 +3,7 @@ import {ProductType} from "../Products";
 import {useDispatch, useSelector} from "react-redux";
 import {incrementCount, setProductsToCard} from "../../p2-bll/products-reducer";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
+import { Paper } from "@material-ui/core";
 
 type ProductPropsType = {
     product: ProductType
@@ -28,8 +29,7 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
 
         console.log(id)
     }
-    return <div
-        style={{width: '200px', outline: '1px solid red', padding: '10px', margin: '10px', textAlign: 'center'}}>
+    return <Paper elevation={3}>
         <div>
             <img src={imgUrl} alt="Product Image"/>
         </div>
@@ -45,5 +45,5 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
         <div>
             <button onClick={() => incrementHandler(id)}>Add to Cart</button>
         </div>
-    </div>
+    </Paper>
 })
