@@ -6,7 +6,7 @@ const products: Array<ProductType> = [
         title: 'Milk',
         description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 20,
-        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
+        imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
         count:0
     },
     {
@@ -14,7 +14,7 @@ const products: Array<ProductType> = [
         title: 'Beer',
         description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 30,
-        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
+        imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
         count:0
     },
     {
@@ -22,7 +22,7 @@ const products: Array<ProductType> = [
         title: 'Bread',
         description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 10,
-        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
+        imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
         count:0
     },
     {
@@ -30,9 +30,26 @@ const products: Array<ProductType> = [
         title: 'apple',
         description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
         price: 5,
-        imgUrl: 'https://pbs.twimg.com/media/ECuRR7zWsAIVkj4.jpg:large',
+        imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
         count:0
-    }
+    },
+    {
+        id: 5,
+        title: 'carpet',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
+        price: 50,
+        imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
+        count:0
+    },
+    {
+        id: 6,
+        title: 'phone',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
+        price: 100,
+        imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
+        count:0
+    },
+
 ]
 
 export const ProductAPI = {

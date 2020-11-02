@@ -25,11 +25,11 @@ export const CartPage = React.memo(() => {
     return <Container fixed>
         <Grid container spacing={3} style={{padding: '30px 0'}}>
             <Grid item container spacing={3}>
-                <Grid item spacing={1} xs={12} // при переносе длина
+                <Grid item container spacing={0} xs={12} // при переносе длина
                       sm={8} //длина в рабочем состоянии
                 >
                     {
-                        carts.map(cart => <Cart cart={cart} key={cart.id}/>
+                        carts.map(cart =><Paper elevation={3} key={cart.id}> <Cart cart={cart} /></Paper>
                         )
                     }
                 </Grid>
