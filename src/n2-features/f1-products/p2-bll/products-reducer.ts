@@ -2,6 +2,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 
 import {SWActionType, ThunkType} from "../../../n1-main/m2-bll/thunk";
+import {FormDataType} from "../../f2-cart/c1-ui/userInfo/UserInfo";
 import {ProductType} from "../p1-ui/Products";
 import {ProductAPI} from "../p3-dal/ProductAPI";
 
@@ -158,20 +159,16 @@ export const getProductsTC = (): ThunkType => {
     }
 }
 export type OrderType = {
-    carts:Array<ProductType>,
-    userInfo:{
-        name: string,
-        surname: string,
-        address: string,
-        phone: string,
-    }
+    carts: Array<ProductType>,
+    userInfo: FormDataType
 }
 
-export const sendOrderTC = (order:OrderType): ThunkType => {
+export const sendOrderTC = (order: OrderType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
             const res = await ProductAPI.sendOrder(order);
-            alert(res);
+            console.log(res);
+            alert('success');
         } catch (e) {
 
         }

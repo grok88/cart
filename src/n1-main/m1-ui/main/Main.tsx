@@ -6,8 +6,6 @@ import {AppBar, Button, Toolbar} from "@material-ui/core";
 import {CartInfoBlock} from "../../../n2-features/f3-cartInfoBlock/c1-ui/CartInfoBlock";
 
 export const Main = () => {
-
-
     return (
         <>
             <AppBar position="static">
@@ -16,7 +14,6 @@ export const Main = () => {
                     <CartInfoBlock/>
                 </Toolbar>
             </AppBar>
-            {/*<Header/>*/}
             <Route exact path={'/'} render={() => <Products/>}/>
             <Route exact path={'/cart'} render={() => <CartPage/>}/>
         </>

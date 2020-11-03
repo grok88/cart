@@ -16,12 +16,12 @@ const useStyles = makeStyles({
         maxWidth: '100%',
         maxHeight: '100%'
     },
-    price:{
-        fontSize:18,
-        marginTop:6
+    price: {
+        fontSize: 18,
+        marginTop: 6
     },
-    btn:{
-      textAlign:'center'
+    btn: {
+        textAlign: 'center'
     }
 });
 
@@ -30,13 +30,14 @@ type ProductPropsType = {
 }
 
 export const Product: React.FC<ProductPropsType> = React.memo((props) => {
+    const {product: {description, id, imgUrl, price, title}} = props;
+
     //styles
     const classes = useStyles();
 
-    const dispatch = useDispatch();
 
-    const {product: {description, id, imgUrl, price, title, count}} = props;
     const productsInCart = useSelector<AppRootStateType, Array<ProductType>>((state: AppRootStateType) => state.products.productsInCart)
+    const dispatch = useDispatch();
 
     const incrementHandler = (id: number) => {
         const productInCart = productsInCart.find(product => product.id === id)
@@ -49,13 +50,10 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
             }
             dispatch(setProductsToCard(newProduct));
         }
-
-        console.log(id)
     }
-    return <Card elevation={3} >
+    return <Card elevation={3}>
         <CardActionArea>
             <CardMedia
-
                 component="img"
                 alt="Product Image"
                 height="auto"
@@ -63,34 +61,19 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
                 title="Product Image"
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" >
+                <Typography gutterBottom variant="h5">
                     {title}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {description}
                 </Typography>
-                <Typography gutterBottom  className={classes.price}>
+                <Typography gutterBottom className={classes.price}>
                     Price: {price}$
                 </Typography>
             </CardContent>
         </CardActionArea>
-        <CardActions  >
-            <Button onClick={() => incrementHandler(id)} variant="outlined" color="primary" >Add to Cart</Button>
+        <CardActions>
+            <Button onClick={() => incrementHandler(id)} variant="outlined" color="primary">Add to Cart</Button>
         </CardActions>
-        {/*<div className={classes.image}>*/}
-        {/*    <img src={imgUrl} alt="Product Image" className={classes.img}/>*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    {title}*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    {description}*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    {price}*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    <button onClick={() => incrementHandler(id)}>Add to Cart</button>*/}
-        {/*</div>*/}
     </Card>
 })
