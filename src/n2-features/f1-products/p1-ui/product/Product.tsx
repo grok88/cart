@@ -52,9 +52,10 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
 
         console.log(id)
     }
-    return <Card elevation={3}>
+    return <Card elevation={3} >
         <CardActionArea>
             <CardMedia
+
                 component="img"
                 alt="Product Image"
                 height="auto"

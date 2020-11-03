@@ -157,3 +157,23 @@ export const getProductsTC = (): ThunkType => {
         }
     }
 }
+export type OrderType = {
+    carts:Array<ProductType>,
+    userInfo:{
+        name: string,
+        surname: string,
+        address: string,
+        phone: string,
+    }
+}
+
+export const sendOrderTC = (order:OrderType): ThunkType => {
+    return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+        try {
+            const res = await ProductAPI.sendOrder(order);
+            alert(res);
+        } catch (e) {
+
+        }
+    }
+}

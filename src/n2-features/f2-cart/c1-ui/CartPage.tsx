@@ -6,11 +6,8 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 import {ProductType} from "../../f1-products/p1-ui/Products";
 import {Container, Grid, Paper, Typography} from '@material-ui/core';
 import {getCartsProducts, getProductsTC} from "../../f1-products/p2-bll/products-reducer";
-// import {cartsSelector} from '../c2-bll/selectors';
-// import {getProducts, totalCartPrice} from '../../f1-products/p2-bll/products-reducer';
 
 export const CartPage = React.memo(() => {
-    // const carts = useSelector(cartsSelector);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,11 +22,12 @@ export const CartPage = React.memo(() => {
     return <Container fixed>
         <Grid container spacing={3} style={{padding: '30px 0'}}>
             <Grid item container spacing={3}>
-                <Grid item container spacing={0} xs={12} // при переносе длина
+                <Grid item container spacing={3} xs={12} // при переносе длина
                       sm={8} //длина в рабочем состоянии
                 >
                     {
-                        carts.map(cart =><Paper elevation={3} key={cart.id}> <Cart cart={cart} /></Paper>
+                        carts.map(cart => <Paper elevation={3} style={{margin: 10}} key={cart.id}> <Cart
+                            cart={cart}/></Paper>
                         )
                     }
                 </Grid>

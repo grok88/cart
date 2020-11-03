@@ -5,15 +5,31 @@ import {useDispatch} from "react-redux";
 import {ButtonBase, Grid, IconButton, Typography} from '@material-ui/core';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import {makeStyles} from '@material-ui/core/styles';
 
 type CartPropsType = {
     cart: ProductType
 }
 
-export const Cart: React.FC<CartPropsType> = React.memo((props) => {
-    const dispatch = useDispatch();
+//styles
+const useStyles = makeStyles({
+    image: {
+        width: 128,
+        height: 128,
+    },
+    img: {
+        maxWidth: '100%',
+        maxHeight: '100%'
+    },
+});
 
+export const Cart: React.FC<CartPropsType> = React.memo((props) => {
     const {cart: {id, title, description, imgUrl, price, count}} = props;
+
+    //styles
+    const classes = useStyles();
+
+    const dispatch = useDispatch();
 
     const incrementHandler = (id: number) => {
         dispatch(incrementCount(id));
@@ -24,14 +40,8 @@ export const Cart: React.FC<CartPropsType> = React.memo((props) => {
 
     return <Grid item container spacing={3}>
         <Grid item xs={3}>
-            <ButtonBase style={{
-                width: '123px',
-                height: '128px'
-            }}>
-                <img alt="complex" src={imgUrl} style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%'
-                }}/>
+            <ButtonBase className={classes.image}>
+                <img alt="complex" src={imgUrl} className={classes.img}/>
             </ButtonBase>
         </Grid>
         <Grid item container direction="column" spacing={2} justify={'center'} xs={6}>

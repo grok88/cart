@@ -1,4 +1,5 @@
 import {ProductType} from "../p1-ui/Products";
+import {OrderType} from "../p2-bll/products-reducer";
 
 const products: Array<ProductType> = [
     {
@@ -58,6 +59,13 @@ export const ProductAPI = {
             setTimeout(() => {
                 // res(products.map(p => ({ ...p, count:0})));
                 res(products);
+            }, 1000);
+        })
+    },
+    sendOrder(order:OrderType) {
+        return new Promise<OrderType>((res) => {
+            setTimeout(() => {
+                res(order);
             }, 1000);
         })
     }
