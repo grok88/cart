@@ -1,7 +1,7 @@
 import {ProductType} from "../p1-ui/Products";
 import {OrderType} from "../p2-bll/products-reducer";
 
-const products: Array<ProductType> = [
+ export const products: Array<ProductType> = [
     {
         id: 1,
         title: 'Milk',

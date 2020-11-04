@@ -21,6 +21,18 @@ const useStyles = makeStyles({
         maxWidth: '100%',
         maxHeight: '100%'
     },
+    cartWidth: {
+        ['@media (max-width:960px)']: { // eslint-disable-line no-useless-computed-key
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }
+    },
+    // cartItem : {
+    //     ['@media (max-width:960px)']: { // eslint-disable-line no-useless-computed-key
+    //         width: '100%'
+    //     }
+    // }
 });
 
 export const Cart: React.FC<CartPropsType> = React.memo((props) => {
@@ -38,18 +50,18 @@ export const Cart: React.FC<CartPropsType> = React.memo((props) => {
         dispatch(decrementCount(id));
     }
 
-    return <Grid item container spacing={3}>
-        <Grid item xs={3}>
+    return <Grid item container spacing={3} style={{minWidth: '550px'}}>
+        <Grid item xs={12} sm={3}>
             <ButtonBase className={classes.image}>
                 <img alt="complex" src={imgUrl} className={classes.img}/>
             </ButtonBase>
         </Grid>
-        <Grid item container direction="column" spacing={2} justify={'center'} xs={6}>
+        <Grid item container direction="column" spacing={2} justify={'center'} xs={12} sm={5}>
             <Typography gutterBottom variant={'subtitle1'}>{title}</Typography>
             <Typography gutterBottom variant="body2">{description}</Typography>
             <Typography>Price : {price} $</Typography>
         </Grid>
-        <Grid item container xs={3} alignItems={'center'}>
+        <Grid item container xs={12} alignItems={'center'} sm={4}>
             <IconButton onClick={() => decrementHandler(id)}>
                 <RemoveCircleOutlineIcon fontSize={'large'}/>
             </IconButton>

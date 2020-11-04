@@ -5,6 +5,11 @@ import {SWActionType, ThunkType} from "../../../n1-main/m2-bll/thunk";
 import {FormDataType} from "../../f2-cart/c1-ui/userInfo/UserInfo";
 import {ProductType} from "../p1-ui/Products";
 import {ProductAPI} from "../p3-dal/ProductAPI";
+import firebase from "firebase";
+
+
+
+
 
 export const GET_PRODUCTS = 'PRODUCTS/GET_PRODUCTS'; // blank
 export const GET_CARTS_PRODUCTS = 'PRODUCTS/GET_CARTS_PRODUCTS'; // blank
@@ -151,8 +156,14 @@ export const totalCartPrice = (totalPrice: number) => {
 export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
-            const res = await ProductAPI.getProducts();
-            dispatch(getProducts(res));
+            const db = firebase.database()
+            const name = await db.ref('products/-MLJiLmOpramU8PpjJQj').on('value', elem => {
+                console.log(elem.val());
+                dispatch(getProducts(elem.val()));
+            });
+
+            // const res = await ProductAPI.getProducts();
+            // dispatch(getProducts(res));
         } catch (e) {
 
         }
@@ -166,6 +177,7 @@ export type OrderType = {
 export const sendOrderTC = (order: OrderType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
+
             const res = await ProductAPI.sendOrder(order);
             console.log(res);
             alert('success');
