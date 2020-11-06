@@ -177,9 +177,7 @@ export type OrderType = {
 export const sendOrderTC = (order: OrderType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
-
             const res = await ProductAPI.sendOrder(order);
-            console.log(res);
             alert('success');
         } catch (e) {
 

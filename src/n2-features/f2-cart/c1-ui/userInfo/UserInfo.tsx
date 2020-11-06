@@ -77,13 +77,7 @@ export const UserInfo = React.memo(() => {
                 carts,
                 userInfo: values
             }
-
-            const db = firebase.database();
-            let cartsDb = db.ref('order/')
-                // .set(order);
-                .push(order);
-
-            // dispatch(sendOrderTC(order));
+            dispatch(sendOrderTC(order));
         },
     });
 
