@@ -8,9 +8,6 @@ import {ProductAPI} from "../p3-dal/ProductAPI";
 import firebase from "firebase";
 
 
-
-
-
 export const GET_PRODUCTS = 'PRODUCTS/GET_PRODUCTS'; // blank
 export const GET_CARTS_PRODUCTS = 'PRODUCTS/GET_CARTS_PRODUCTS'; // blank
 export const INCREMENT_COUNT = 'PRODUCTS/INCREMENT_COUNT'; // blank
@@ -22,7 +19,7 @@ type GetProductsACType = ReturnType<typeof getProducts>;
 type GetCartsProductsACType = ReturnType<typeof getCartsProducts>;
 type IncrementCountACType = ReturnType<typeof incrementCount>;
 type DecrementCountACType = ReturnType<typeof decrementCount>;
-type TotalPriceCountACType = ReturnType<typeof totalCartPrice>;
+// type TotalPriceCountACType = ReturnType<typeof totalCartPrice>;
 type SetProductsToCardACType = ReturnType<typeof setProductsToCard>;
 
 export type ProductsReducerActions =
@@ -30,7 +27,7 @@ export type ProductsReducerActions =
     | GetCartsProductsACType
     | IncrementCountACType
     | DecrementCountACType
-    | TotalPriceCountACType
+    // | TotalPriceCountACType
     | SetProductsToCardACType;
 
 export type ProductsInitialStateType = {
@@ -104,11 +101,11 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                 localStorage.setItem('carts', JSON.stringify(data.productsInCart));
                 return data;
             }
-            case "PRODUCTS/TOTAL_PRICE":
-                return {
-                    ...state,
-                    totalCount: action.totalPrice
-                }
+            // case "PRODUCTS/TOTAL_PRICE":
+            //     return {
+            //         ...state,
+            //         totalCount: action.totalPrice
+            //     }
             default: {
                 return state;
             }
@@ -146,19 +143,19 @@ export const decrementCount = (id: number) => {
         id
     } as const
 }
-export const totalCartPrice = (totalPrice: number) => {
-    return {
-        type: TOTAL_PRICE,
-        totalPrice
-    } as const
-}
+// export const totalCartPrice = (totalPrice: number) => {
+//     return {
+//         type: TOTAL_PRICE,
+//         totalPrice
+//     } as const
+// }
 
 export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
             const db = firebase.database()
             const name = await db.ref('products/-MLJiLmOpramU8PpjJQj').on('value', elem => {
-                console.log(elem.val());
+                // console.log(elem.val());
                 dispatch(getProducts(elem.val()));
             });
 

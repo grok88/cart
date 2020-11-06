@@ -7,15 +7,15 @@ import {CartInfoBlock} from "../../../n2-features/f3-cartInfoBlock/c1-ui/CartInf
 import firebase from "firebase";
 
 export const Main = () => {
-
-    useEffect(() => {
-        const db = firebase.database()
-        const name = db.ref('order').on('value', elem => {
-            console.log(elem.val());
-        });
-        console.log(db);
-        console.log(name);
-    }, [])
+    //
+    // useEffect(() => {
+    //     const db = firebase.database()
+    //     const name = db.ref('order').on('value', elem => {
+    //         // console.log(elem.val());
+    //     });
+    //     console.log(db);
+    //     console.log(name);
+    // }, [])
 
     // const [hasAcc, setHasAcc] = useState<boolean>(false)
 
