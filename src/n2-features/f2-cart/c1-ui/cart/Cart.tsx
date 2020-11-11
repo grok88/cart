@@ -7,7 +7,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import {makeStyles} from '@material-ui/core/styles';
 
-type CartPropsType = {
+export type CartPropsType = {
     cart: ProductType
 }
 
