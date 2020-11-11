@@ -44,10 +44,10 @@ export const Cart: React.FC<CartPropsType> = React.memo((props) => {
     const dispatch = useDispatch();
 
     const incrementHandler = (id: number) => {
-        dispatch(incrementCount(id));
+        dispatch(incrementCount({id}));
     }
     const decrementHandler = (id: number) => {
-        dispatch(decrementCount(id));
+        dispatch(decrementCount({id}));
     }
 
     return <Grid item container spacing={3} style={{minWidth: '550px'}}>

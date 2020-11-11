@@ -42,13 +42,13 @@ export const Product: React.FC<ProductPropsType> = React.memo((props) => {
     const incrementHandler = (id: number) => {
         const productInCart = productsInCart.find(product => product.id === id)
         if (productInCart) {
-            dispatch(incrementCount(id));
+            dispatch(incrementCount({id}));
         } else {
             const newProduct: ProductType = {
                 ...props.product,
                 count: 1
             }
-            dispatch(setProductsToCard(newProduct));
+            dispatch(setProductsToCard({product:newProduct}));
         }
     }
     return <Card elevation={3}>

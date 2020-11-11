@@ -1,34 +1,35 @@
 import {ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store";
 
-import {SWActionType, ThunkType} from "../../../n1-main/m2-bll/thunk";
+// import {SWActionType, ThunkType} from "../../../n1-main/m2-bll/thunk";
 import {FormDataType} from "../../f2-cart/c1-ui/userInfo/UserInfo";
 import {ProductType} from "../p1-ui/Products";
 import {ProductAPI} from "../p3-dal/ProductAPI";
-import firebase from "firebase";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Dispatch} from "react";
 
 
-export const GET_PRODUCTS = 'PRODUCTS/GET_PRODUCTS'; // blank
-export const GET_CARTS_PRODUCTS = 'PRODUCTS/GET_CARTS_PRODUCTS'; // blank
-export const INCREMENT_COUNT = 'PRODUCTS/INCREMENT_COUNT'; // blank
-export const DECREMENT_COUNT = 'PRODUCTS/DECREMENT_COUNT'; // blank
-export const TOTAL_PRICE = 'PRODUCTS/TOTAL_PRICE'; // blank
-export const SET_PRODUCT_TO_CART = 'PRODUCTS/SET_PRODUCT_TO_CART'; // blank
+// export const GET_PRODUCTS = 'PRODUCTS/GET_PRODUCTS'; // blank
+// export const GET_CARTS_PRODUCTS = 'PRODUCTS/GET_CARTS_PRODUCTS'; // blank
+// export const INCREMENT_COUNT = 'PRODUCTS/INCREMENT_COUNT'; // blank
+// export const DECREMENT_COUNT = 'PRODUCTS/DECREMENT_COUNT'; // blank
+// export const TOTAL_PRICE = 'PRODUCTS/TOTAL_PRICE'; // blank
+// export const SET_PRODUCT_TO_CART = 'PRODUCTS/SET_PRODUCT_TO_CART'; // blank
 
-type GetProductsACType = ReturnType<typeof getProducts>;
-type GetCartsProductsACType = ReturnType<typeof getCartsProducts>;
-type IncrementCountACType = ReturnType<typeof incrementCount>;
-type DecrementCountACType = ReturnType<typeof decrementCount>;
+// type GetProductsACType = ReturnType<typeof getProducts>;
+// type GetCartsProductsACType = ReturnType<typeof getCartsProducts>;
+// type IncrementCountACType = ReturnType<typeof incrementCount>;
+// type DecrementCountACType = ReturnType<typeof decrementCount>;
 // type TotalPriceCountACType = ReturnType<typeof totalCartPrice>;
-type SetProductsToCardACType = ReturnType<typeof setProductsToCard>;
+// type SetProductsToCardACType = ReturnType<typeof setProductsToCard>;
 
-export type ProductsReducerActions =
-    GetProductsACType
-    | GetCartsProductsACType
-    | IncrementCountACType
-    | DecrementCountACType
-    // | TotalPriceCountACType
-    | SetProductsToCardACType;
+// export type ProductsReducerActions =
+//
+// // GetProductsACType
+//     | GetCartsProductsACType
+//     | IncrementCountACType
+//     | DecrementCountACType
+//     | SetProductsToCardACType;
 
 export type ProductsInitialStateType = {
     products: Array<ProductType>
@@ -48,7 +49,73 @@ const getTotalPrice = (products: Array<ProductType>) => {
     }, 0);
 }
 
-export const productsReducer = (state: ProductsInitialStateType = productsInitialState, action: ProductsReducerActions) => {
+const slice = createSlice({
+    name: 'products',
+    initialState: productsInitialState,
+    reducers: {
+        getProducts(state, action: PayloadAction<{ products: Array<ProductType> }>) {
+            state.products = action.payload.products
+        },
+        setProductsToCard(state, action: PayloadAction<{ product: ProductType }>) {
+            const newState = {
+                ...state,
+                productsInCart: [...state.productsInCart, action.payload.product],
+            }
+            localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
+            return {
+                ...newState,
+                totalCount: getTotalPrice(newState.productsInCart)
+            }
+        },
+        getCartsProducts(state, action: PayloadAction<{ products: ProductType[] }>) {
+            const products = Object.values(action.payload.products).map(prod => prod);
+            return {
+                ...state,
+                productsInCart: products,
+                totalCount: getTotalPrice(products)
+            }
+        },
+        incrementCount(state, action: PayloadAction<{ id: number }>) {
+            const newState = {
+                ...state,
+                productsInCart: state.productsInCart.map(p => p.id === action.payload.id ? {
+                    ...p,
+                    count: p.count + 1
+                } : p)
+            }
+            localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
+            return {
+                ...newState,
+                totalCount: getTotalPrice(newState.productsInCart)
+            };
+        },
+        decrementCount(state, action: PayloadAction<{ id: number }>) {
+            const newState = {
+                ...state,
+                productsInCart: state.productsInCart.map(p => p.id === action.payload.id ? {
+                    ...p,
+                    count: p.count - 1
+                } : p)
+            }
+            //save to local
+            let data = {
+                ...newState,
+                productsInCart: newState.productsInCart.filter(prod => prod.count !== 0),
+                totalCount: getTotalPrice(newState.productsInCart)
+            }
+            localStorage.setItem('carts', JSON.stringify(data.productsInCart));
+            return data;
+        }
+    }
+});
+
+//reducer
+export const productsReducer = slice.reducer;
+
+//actions
+export const {getProducts, decrementCount, getCartsProducts, incrementCount, setProductsToCard} = slice.actions;
+
+/*export const productsReducer = (state: ProductsInitialStateType = productsInitialState, action: ProductsReducerActions) => {
         switch (action.type) {
             case "PRODUCTS/GET_PRODUCTS":
                 return {
@@ -106,14 +173,17 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
             }
         }
     }
-;
+;*/
 
-export const getProducts = (products: Array<ProductType>) => {
+// old fo redux
+/*export const getProducts = (products: Array<ProductType>) => {
     return {
         type: GET_PRODUCTS,
         products
     } as const
-}
+}*/
+
+/*
 export const setProductsToCard = (product: ProductType) => {
     return {
         type: SET_PRODUCT_TO_CART,
@@ -138,8 +208,11 @@ export const decrementCount = (id: number) => {
         id
     } as const
 }
-export const getProductsTC = (): ThunkType => {
-    return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+*/
+
+//thunk
+export const getProductsTC = ()=> {
+    return async (dispatch: Dispatch<any>) => {
         try {
             // const db = firebase.database()
             // const name = await db.ref('products/-MLJiLmOpramU8PpjJQj').on('value', elem => {
@@ -147,7 +220,7 @@ export const getProductsTC = (): ThunkType => {
             //     dispatch(getProducts(elem.val()));
             // });
             const cb = (elem: any) => {
-                dispatch(getProducts(elem.val()));
+                dispatch(getProducts({products: elem.val()}));
             }
             ProductAPI.getProducts(cb);
         } catch (e) {
@@ -160,11 +233,10 @@ export type OrderType = {
     userInfo: FormDataType
 }
 
-export const sendOrderTC = (order: OrderType): ThunkType => {
-    return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+export const sendOrderTC = (order: OrderType) => {
+    return async (dispatch: Dispatch<any>) => {
         try {
             const res = await ProductAPI.sendOrder(order);
-            debugger
             alert('success');
         } catch (e) {
 

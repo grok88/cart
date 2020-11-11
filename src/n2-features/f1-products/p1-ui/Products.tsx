@@ -8,10 +8,10 @@ import {makeStyles} from '@material-ui/core/styles';
 
 //styles
 const useStyles = makeStyles({
-    container:{
+    container: {
         padding: '30px 0'
     },
-    item:{
+    item: {
         minWidth: '280px'
     }
 });
@@ -34,11 +34,13 @@ export const Products = React.memo(() => {
     useEffect(() => {
         dispatch(getProductsTC());
         let carts = localStorage.getItem('carts')
-        carts && dispatch(getCartsProducts(JSON.parse(carts)))
+        if (carts) {
+            dispatch(getCartsProducts({products: JSON.parse(carts)}))
+        }
     }, []);
 
     return <Container fixed>
-        <Grid container spacing={3}  justify="center" className={classes.container}>
+        <Grid container spacing={3} justify="center" className={classes.container}>
             {
                 products.map(product => <Grid item key={product.id} xs={6} sm={4} className={classes.item}>
                         <Product product={product}/>

@@ -27,7 +27,7 @@ export const CartPage = React.memo(() => {
     useEffect(() => {
         dispatch(getProductsTC());
         let carts = localStorage.getItem('carts')
-        carts && dispatch(getCartsProducts(JSON.parse(carts)))
+        carts && dispatch(getCartsProducts({products:JSON.parse(carts)}))
     }, []);
 
     const totalPrice = useSelector<AppRootStateType>(state => state.products.totalCount);
