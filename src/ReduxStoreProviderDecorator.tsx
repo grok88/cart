@@ -1,9 +1,10 @@
 import React from "react";
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {productsReducer} from "./n2-features/f1-products/p2-bll/products-reducer";
 import {AppRootStateType} from "./n1-main/m2-bll/store";
+import thunk from "redux-thunk";
 
 
 const RootReducer = combineReducers({
@@ -31,12 +32,26 @@ const initialGlobalState: AppRootStateType = {
                 price: 20,
                 imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
                 count: 0
+            },{
+                id: 2,
+                title: 'Bread',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
+                price: 10,
+                imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
+                count: 0
+            },{
+                id: 3,
+                title: 'Butter',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias!',
+                price: 30,
+                imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
+                count: 0
             },
         ]
     }
 }
 
-export const storyBookStore = createStore(RootReducer, initialGlobalState);
+export const storyBookStore = createStore(RootReducer, initialGlobalState, applyMiddleware(thunk));
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => {
     return <Provider store={storyBookStore}>

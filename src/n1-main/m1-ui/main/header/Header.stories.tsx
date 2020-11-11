@@ -5,16 +5,24 @@ import {action} from "@storybook/addon-actions";
 import { ReduxStoreProviderDecorator } from '../../../../ReduxStoreProviderDecorator';
 import {NavLink} from "react-router-dom";
 import {Button} from "@material-ui/core";
+import {Header} from "./Header";
 
 export default {
-    title: 'Project/Header/HomeBtn',
+    title: 'Project/Header/Header',
     decorators:[ReduxStoreProviderDecorator]
 } as Meta;
 
 
-const Template: Story = (args) => <Button variant={"contained"} color={'secondary'} component={NavLink} to={'/'}>Shop</Button>
+const TemplateHeader: Story = (args) => <Header/>
 
-export const HomeBtn = Template.bind({});
+export const HeaderBaseExample = TemplateHeader.bind({});
+HeaderBaseExample.args = {};
+
+
+
+const TemplateBtn: Story = (args) => <Button variant={"contained"} color={'secondary'} component={NavLink} to={'/'}>Shop</Button>
+
+export const HomeBtn = TemplateBtn.bind({});
 HomeBtn.args = {};
 
 

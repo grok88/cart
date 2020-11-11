@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     }
 });
 
-type ProductPropsType = {
+export type ProductPropsType = {
     product: ProductType
 }
 
