@@ -101,11 +101,6 @@ export const productsReducer = (state: ProductsInitialStateType = productsInitia
                 localStorage.setItem('carts', JSON.stringify(data.productsInCart));
                 return data;
             }
-            // case "PRODUCTS/TOTAL_PRICE":
-            //     return {
-            //         ...state,
-            //         totalCount: action.totalPrice
-            //     }
             default: {
                 return state;
             }
@@ -143,13 +138,6 @@ export const decrementCount = (id: number) => {
         id
     } as const
 }
-// export const totalCartPrice = (totalPrice: number) => {
-//     return {
-//         type: TOTAL_PRICE,
-//         totalPrice
-//     } as const
-// }
-
 export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
@@ -158,20 +146,10 @@ export const getProductsTC = (): ThunkType => {
             //     // console.log(elem.val());
             //     dispatch(getProducts(elem.val()));
             // });
-            const cb = (elem: any, err: any) => {
-                if(!err){
-                    dispatch(getProducts(elem.val()));
-                } else {
-
-                }
-
+            const cb = (elem: any) => {
+                dispatch(getProducts(elem.val()));
             }
-            ProductAPI.getProducts(cb)
-
-
-
-            // const res = await ProductAPI.getProducts();
-            // dispatch(getProducts(res));
+            ProductAPI.getProducts(cb);
         } catch (e) {
 
         }
