@@ -153,11 +153,22 @@ export const decrementCount = (id: number) => {
 export const getProductsTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
-            const db = firebase.database()
-            const name = await db.ref('products/-MLJiLmOpramU8PpjJQj').on('value', elem => {
-                // console.log(elem.val());
-                dispatch(getProducts(elem.val()));
-            });
+            // const db = firebase.database()
+            // const name = await db.ref('products/-MLJiLmOpramU8PpjJQj').on('value', elem => {
+            //     // console.log(elem.val());
+            //     dispatch(getProducts(elem.val()));
+            // });
+            const cb = (elem: any, err: any) => {
+                if(!err){
+                    dispatch(getProducts(elem.val()));
+                } else {
+
+                }
+
+            }
+            ProductAPI.getProducts(cb)
+
+
 
             // const res = await ProductAPI.getProducts();
             // dispatch(getProducts(res));
@@ -175,6 +186,7 @@ export const sendOrderTC = (order: OrderType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         try {
             const res = await ProductAPI.sendOrder(order);
+            debugger
             alert('success');
         } catch (e) {
 

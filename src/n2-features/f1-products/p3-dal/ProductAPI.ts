@@ -1,5 +1,5 @@
 import {ProductType} from "../p1-ui/Products";
-import {OrderType} from "../p2-bll/products-reducer";
+import {getProducts, OrderType} from "../p2-bll/products-reducer";
 import firebase from 'firebase'
 
 //  export const products: Array<ProductType> = [
@@ -55,18 +55,23 @@ import firebase from 'firebase'
 // ]
 
 export const ProductAPI = {
-    getProducts() {
-        return new Promise<Array<ProductType>>((res) => {
-            setTimeout(() => {
-                // res(products.map(p => ({ ...p, count:0})));
-                // res(products);
-            }, 1000);
-        })
-    },
+    // getProducts() {
+    //     return new Promise<Array<ProductType>>((res) => {
+    //         setTimeout(() => {
+    //             // res(products.map(p => ({ ...p, count:0})));
+    //             // res(products);
+    //         }, 1000);
+    //     })
+    // },
     sendOrder(order: OrderType) {
         // return new Promise<OrderType>((res) => {
         const db = firebase.database();
-        let cartsDb = db.ref('order/').push(order);
+        return  db.ref('order/').push(order);
         // })
+    },
+
+    getProducts(cb: any){
+        const db = firebase.database()
+       db.ref('products/-MLJiLmOpramU8PpjJQj').on('value', cb );
     }
 }
