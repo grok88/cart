@@ -75,13 +75,13 @@ test('correct Array<ProductType> should be added to startState.products', () => 
             count: 0
         }
     ]
-    const endState = productsReducer(startState, getProducts(products));
+    const endState = productsReducer(startState, getProducts({products}));
 
     expect(endState.products.length).toBe(2);
 })
 test('correct count in correct productsInCart should be increment by 1', () => {
 
-    const endState = productsReducer(startState, incrementCount(1));
+    const endState = productsReducer(startState, incrementCount({id:1}));
 
     expect(endState.products[0].count).toBe(0);
     expect(endState.products[0].count).toBe(0);
@@ -102,14 +102,14 @@ test('correct product should be added in productsInCart if this product is not i
         imgUrl: 'https://avatars.mds.yandex.net/get-zen_doc/98843/pub_5bd19777060b8d00aa9f34f9_5bd1de71ad476400aa79dd85/scale_1200',
         count: 1
     }
-    const endState = productsReducer(startInitialState, setProductsToCard(product));
+    const endState = productsReducer(startInitialState, setProductsToCard({product}));
 
     expect(endState.productsInCart[0]).toBeDefined();
     expect(endState.productsInCart[0].count).toBe(1);
 })
 test('correct count in correct productsInCart should be decrement by 1', () => {
 
-    const endState = productsReducer(startState, decrementCount(2));
+    const endState = productsReducer(startState, decrementCount({id:2}));
 
     expect(endState.products[0].count).toBe(0);
     expect(endState.products[0].count).toBe(0);
@@ -156,7 +156,7 @@ test('correct product should be deleted in  correct productsInCart  if count 1',
             }]
     }
 
-    const endState = productsReducer(startState, decrementCount(2));
+    const endState = productsReducer(startState, decrementCount({id:2}));
 
     expect(endState.products[0].count).toBe(0);
     expect(endState.products[0].count).toBe(0);
