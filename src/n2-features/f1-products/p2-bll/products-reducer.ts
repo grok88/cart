@@ -275,7 +275,7 @@ export type OrderType = {
 export const sendOrderTC = (order: OrderType) => {
     return async (dispatch: Dispatch<any>) => {
         try {
-            const res = await ProductAPI.sendOrder(order);
+            await ProductAPI.sendOrder(order);
             alert('success');
         } catch (e) {
 

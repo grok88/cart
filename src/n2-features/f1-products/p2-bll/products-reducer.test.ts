@@ -1,6 +1,5 @@
 import {
-    decrementCount,
-    getProducts,
+    decrementCount, getProductsTC,
     incrementCount,
     ProductsInitialStateType,
     productsReducer, setProductsToCard
@@ -51,11 +50,11 @@ beforeEach(() => {
 });
 
 test('correct Array<ProductType> should be added to startState.products', () => {
-    let startInitialState: ProductsInitialStateType = {
-        products: [],
-        totalCount: 0,
-        productsInCart: []
-    }
+    // let startInitialState: ProductsInitialStateType = {
+    //     products: [],
+    //     totalCount: 0,
+    //     productsInCart: []
+    // }
 
     const products = [
         {
@@ -75,7 +74,7 @@ test('correct Array<ProductType> should be added to startState.products', () => 
             count: 0
         }
     ]
-    const endState = productsReducer(startState, getProducts({products}));
+    const endState = productsReducer(startState, getProductsTC.fulfilled({products}, 'requestId',undefined));
 
     expect(endState.products.length).toBe(2);
 })

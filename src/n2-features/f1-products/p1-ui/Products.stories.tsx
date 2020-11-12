@@ -1,9 +1,8 @@
 import React from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {Grid} from "@material-ui/core";
 import {Products} from "./Products";
-import { ReduxStoreProviderDecorator } from '../../../ReduxStoreProviderDecorator';
+import {ReduxStoreProviderDecorator} from '../../../ReduxStoreProviderDecorator';
 
 export default {
     title: 'Project/Products/ProductsPage',
@@ -16,5 +15,4 @@ export default {
 const Template: Story = (args) => <Products/>
 
 export const ProductsPageBaseExample = Template.bind({});
-ProductsPageBaseExample.args = {
-};
+ProductsPageBaseExample.args = {};

@@ -6,8 +6,7 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {ProductType} from "../../../f1-products/p1-ui/Products";
 import {sendOrderTC} from '../../../f1-products/p2-bll/products-reducer';
 import {makeStyles} from '@material-ui/core/styles';
-//firebase
-import firebase from 'firebase'
+
 
 //styles
 const useStyles = makeStyles({
