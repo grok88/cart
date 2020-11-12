@@ -1,5 +1,5 @@
 import {ProductType} from "../p1-ui/Products";
-import {getProducts, OrderType} from "../p2-bll/products-reducer";
+import { OrderType} from "../p2-bll/products-reducer";
 import firebase from 'firebase'
 
 //  export const products: Array<ProductType> = [

@@ -1,11 +1,8 @@
-import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store";
-
 // import {SWActionType, ThunkType} from "../../../n1-main/m2-bll/thunk";
 import {FormDataType} from "../../f2-cart/c1-ui/userInfo/UserInfo";
 import {ProductType} from "../p1-ui/Products";
 import {ProductAPI} from "../p3-dal/ProductAPI";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
 
 
@@ -49,63 +46,105 @@ const getTotalPrice = (products: Array<ProductType>) => {
     }, 0);
 }
 
+export const getProductsTC = createAsyncThunk<{ products: ProductType[] }, undefined>('products/getProducts',
+    async (param, thunkAPI) => {
+
+        return await new Promise((res, rej) => {
+            const cb = (elem: any) => {
+                // thunkAPI.dispatch(getProducts({products: elem.val()}));
+                res({products: elem.val()});
+            }
+            ProductAPI.getProducts(cb);
+        })
+
+    })
 const slice = createSlice({
     name: 'products',
     initialState: productsInitialState,
     reducers: {
-        getProducts(state, action: PayloadAction<{ products: Array<ProductType> }>) {
-            state.products = action.payload.products
-        },
+        // getProducts(state, action: PayloadAction<{ products: Array<ProductType> }>) {
+        //     state.products = action.payload.products
+        // },
         setProductsToCard(state, action: PayloadAction<{ product: ProductType }>) {
-            const newState = {
-                ...state,
-                productsInCart: [...state.productsInCart, action.payload.product],
-            }
-            localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
-            return {
-                ...newState,
-                totalCount: getTotalPrice(newState.productsInCart)
-            }
+            // const newState = {
+            //     ...state,
+            //     productsInCart: [...state.productsInCart, action.payload.product],
+            // }
+
+            state.productsInCart = [...state.productsInCart, action.payload.product]
+            localStorage.setItem('carts', JSON.stringify(state.productsInCart));
+            state.totalCount = getTotalPrice(state.productsInCart)
+            // return {
+            //     ...newState,
+            //     totalCount: getTotalPrice(newState.productsInCart)
+            // }
         },
         getCartsProducts(state, action: PayloadAction<{ products: ProductType[] }>) {
-            const products = Object.values(action.payload.products).map(prod => prod);
-            return {
-                ...state,
-                productsInCart: products,
-                totalCount: getTotalPrice(products)
-            }
+            // const products = Object.values(action.payload.products).map(prod => prod);
+            state.productsInCart = action.payload.products
+            state.totalCount = getTotalPrice(action.payload.products)
+            // return {
+            //     ...state,
+            //     productsInCart: products,
+            //     totalCount: getTotalPrice(products)
+            // }
         },
         incrementCount(state, action: PayloadAction<{ id: number }>) {
-            const newState = {
-                ...state,
-                productsInCart: state.productsInCart.map(p => p.id === action.payload.id ? {
-                    ...p,
-                    count: p.count + 1
-                } : p)
+            // const newState = {
+            //     ...state,
+            //     productsInCart: state.productsInCart.map(p => p.id === action.payload.id ? {
+            //         ...p,
+            //         count: p.count + 1
+            //     } : p)
+            // }
+            const index = state.productsInCart.findIndex(p => p.id === action.payload.id)
+            if (index >= 0) {
+                state.productsInCart[index].count += 1
             }
-            localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
-            return {
-                ...newState,
-                totalCount: getTotalPrice(newState.productsInCart)
-            };
+            // localStorage.setItem('carts', JSON.stringify(newState.productsInCart));
+            localStorage.setItem('carts', JSON.stringify(state.productsInCart));
+            state.totalCount = getTotalPrice(state.productsInCart)
+            // return {
+            //     ...newState,
+            //     totalCount: getTotalPrice(newState.productsInCart)
+            // };
         },
         decrementCount(state, action: PayloadAction<{ id: number }>) {
-            const newState = {
-                ...state,
-                productsInCart: state.productsInCart.map(p => p.id === action.payload.id ? {
-                    ...p,
-                    count: p.count - 1
-                } : p)
+            // const newState = {
+            //     ...state,
+            //     productsInCart: state.productsInCart.map(p => p.id === action.payload.id ? {
+            //         ...p,
+            //         count: p.count - 1
+            //     } : p)
+            // }
+            // //save to local
+            // let data = {
+            //     ...newState,
+            //     productsInCart: newState.productsInCart.filter(prod => prod.count !== 0),
+            //     totalCount: getTotalPrice(newState.productsInCart)
+            // }
+            // localStorage.setItem('carts', JSON.stringify(data.productsInCart));
+            // return data;
+
+            const index = state.productsInCart.findIndex(p => p.id === action.payload.id)
+            if(index >=0){
+                state.productsInCart[index].count -=1
             }
-            //save to local
-            let data = {
-                ...newState,
-                productsInCart: newState.productsInCart.filter(prod => prod.count !== 0),
-                totalCount: getTotalPrice(newState.productsInCart)
+            const indexCount = state.productsInCart.findIndex(p => p.count === 0);
+
+            if(indexCount !== -1){
+                state.productsInCart.splice(indexCount,1)
             }
-            localStorage.setItem('carts', JSON.stringify(data.productsInCart));
-            return data;
+            state.totalCount = getTotalPrice(state.productsInCart)
+            localStorage.setItem('carts', JSON.stringify(state.productsInCart));
         }
+    },
+    extraReducers: builder => {
+        builder.addCase(getProductsTC.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.products = action.payload.products
+            }
+        })
     }
 });
 
@@ -113,7 +152,7 @@ const slice = createSlice({
 export const productsReducer = slice.reducer;
 
 //actions
-export const {getProducts, decrementCount, getCartsProducts, incrementCount, setProductsToCard} = slice.actions;
+export const {decrementCount, getCartsProducts, incrementCount, setProductsToCard} = slice.actions;
 
 /*export const productsReducer = (state: ProductsInitialStateType = productsInitialState, action: ProductsReducerActions) => {
         switch (action.type) {
@@ -175,7 +214,7 @@ export const {getProducts, decrementCount, getCartsProducts, incrementCount, set
     }
 ;*/
 
-// old fo redux
+// old for redux
 /*export const getProducts = (products: Array<ProductType>) => {
     return {
         type: GET_PRODUCTS,
@@ -211,7 +250,7 @@ export const decrementCount = (id: number) => {
 */
 
 //thunk
-export const getProductsTC = ()=> {
+export const _getProductsTC = () => {
     return async (dispatch: Dispatch<any>) => {
         try {
             // const db = firebase.database()
@@ -219,10 +258,10 @@ export const getProductsTC = ()=> {
             //     // console.log(elem.val());
             //     dispatch(getProducts(elem.val()));
             // });
-            const cb = (elem: any) => {
-                dispatch(getProducts({products: elem.val()}));
-            }
-            ProductAPI.getProducts(cb);
+            // const cb = (elem: any) => {
+            //     dispatch(getProducts({products: elem.val()}));
+            // }
+            // ProductAPI.getProducts(cb);
         } catch (e) {
 
         }
