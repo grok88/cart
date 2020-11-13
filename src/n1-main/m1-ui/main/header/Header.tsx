@@ -4,11 +4,10 @@ import {NavLink} from "react-router-dom";
 import {CartInfoBlock} from "../../../../n2-features/f3-cartInfoBlock/c1-ui/CartInfoBlock";
 
 export const Header = () => {
-    return  <AppBar position="static">
+    return <AppBar position="static">
         <Toolbar style={{justifyContent: 'space-between'}}>
             <Button variant={"contained"} color={'secondary'} component={NavLink} to={'/'}>Shop</Button>
             <CartInfoBlock/>
-            {/*<button onClick={firebaseAccTest}>Firebase test</button>*/}
         </Toolbar>
     </AppBar>
 }

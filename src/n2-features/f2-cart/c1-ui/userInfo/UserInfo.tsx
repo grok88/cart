@@ -76,7 +76,7 @@ export const UserInfo = React.memo(() => {
                 carts,
                 userInfo: values
             }
-            dispatch(sendOrderTC(order));
+            dispatch(sendOrderTC({order}));
         },
     });
 
